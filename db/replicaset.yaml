@@ -3,20 +3,20 @@ kind: ReplicaSet
 metadata:
   name: mysql
   labels:
-    app: mysql
+    app.kubernetes.io/app: mysql
 spec:
-  replicas: 1  # Adjust the number of replicas as needed
+  replicas: 1
   selector:
     matchLabels:
-      app: mysql
+      app.kubernetes.io/app: mysql
   template:
     metadata:
       labels:
-        app: mysql
+        app.kubernetes.io/app: mysql
     spec:
       containers:
       - name: mysql
-        image: 203171546861.dkr.ecr.us-east-1.amazonaws.com/clo835-jcaranay-assignment1-app-repo:latest
+        image: 203171546861.dkr.ecr.us-east-1.amazonaws.com/clo835-jcaranay-assignment1-db-repo:latest
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:

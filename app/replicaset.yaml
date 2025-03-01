@@ -3,19 +3,19 @@ kind: ReplicaSet
 metadata:
   name: application
   labels:
-    app: employees
+    app.kubernetes.io/app: employees
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: employees
+      app.kubernetes.io/app: employees
   template:
     metadata:
       labels:
-        app: employees
+        app.kubernetes.io/app: employees
     spec:
       containers:
-      - name: employees
+      - name: application
         image: 203171546861.dkr.ecr.us-east-1.amazonaws.com/clo835-jcaranay-assignment1-app-repo:latest
         env:
         - name: DBHOST

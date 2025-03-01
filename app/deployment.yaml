@@ -15,7 +15,7 @@ spec:
         app.kubernetes.io/app: employees
     spec:
       containers:
-      - name: flask
+      - name: aplication
         image: 203171546861.dkr.ecr.us-east-1.amazonaws.com/clo835-jcaranay-assignment1-app-repo:latest
         env:
         - name: DBHOST
