@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: db-con
+  name: mysql
   labels:
-    app: db-con
+    app: mysql
 spec:
   containers:
-  - name: db-container
+  - name: mysql
     image: 203171546861.dkr.ecr.us-east-1.amazonaws.com/clo835-jcaranay-assignment1-db-repo:latest
     env:
     - name: MYSQL_ROOT_PASSWORD

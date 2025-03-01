@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: application
+  labels:
+    app: employees
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: employees
+  template:
+    metadata:
+      labels:
+        app: employees
+    spec:
+      containers:
+      - name: employees
+        image: 203171546861.dkr.ecr.us-east-1.amazonaws.com/clo835-jcaranay-assignment1-app-repo:latest
+        env:
+        - name: DBHOST
+          value: mysql.db.svc.cluster.local
+        - name: DBPORT
+          value: "3306"
+        - name: DBUSER
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: USER
+        - name: DBPWD
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: PASSWORD
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: ecr-secret
