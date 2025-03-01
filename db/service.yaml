@@ -11,4 +11,4 @@ spec:
     targetPort: 3306
   selector:
     app.kubernetes.io/name: mysql
-    app.kubernetes.io/component: databse      
+    app.kubernetes.io/component: database      

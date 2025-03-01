@@ -10,7 +10,10 @@ spec:
     image: 203171546861.dkr.ecr.us-east-1.amazonaws.com/clo835-jcaranay-assignment1-db-repo:latest
     env:
     - name: MYSQL_ROOT_PASSWORD
-      value: pw
+      valueFrom:
+        secretKeyRef:
+          name: db
+          key: PASSWORD
     ports:
     - containerPort: 3306
   imagePullSecrets:
