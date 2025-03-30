@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  namespace: db
+  labels:
+    app.kubernetes.io/app: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/app: mysql
+  serviceName: mysql-headless
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: 203171546861.dkr.ecr.us-east-1.amazonaws.com/clo835-jcaranay-assignment1-db-repo:v1.0
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DBPWD
+        volumeMounts:
+        - name: mysql-data
+          mountPath: /var/lib/mysql
+      imagePullSecrets:
+      - name: ecr-secret
+      volumes:
+      - name: mysql-data
+        persistentVolumeClaim:
+          claimName: mysql-pvc

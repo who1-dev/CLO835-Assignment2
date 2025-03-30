@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: app
+data:
+  DBPORT: "3306"
+  S3_BUCKET: background-s3-jcaranay
+  BG: uploads/default-bg.jpg

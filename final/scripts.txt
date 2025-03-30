@@ -1,0 +1,8 @@
+k apply -k 'github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.32'
+
+
+ k create secret generic ecr-secret --from-file=.dockerconfigjson=/home/ec2-user/.docker/config.json \
+--type=kubernetes.io/dockerconfigjson -n cowsay
+
+
+k create configmap my-config-1 --from-file=config-file.conf
