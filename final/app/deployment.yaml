@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: application
-  namespace: app
+  namespace: final
   labels:
     app.kubernetes.io/app: employees
 spec:
@@ -17,6 +17,7 @@ spec:
       labels:
         app.kubernetes.io/app: employees
     spec:
+      serviceAccountName: clo835
       containers:
       - name: application
         image: 203171546861.dkr.ecr.us-east-1.amazonaws.com/clo835-jcaranay-assignment1-app-repo:v1.0
@@ -47,7 +48,7 @@ spec:
               name: app-secrets
               key: DBPWD
         - name: DBHOST
-          value: mysql-0.mysql-headless.db.svc.cluster.local
+          value: mysql-0.mysql-headless.final.svc.cluster.local
         - name: DBPORT
           valueFrom:
             configMapKeyRef:
@@ -63,6 +64,21 @@ spec:
             configMapKeyRef:
               name: app-config
               key: BG
+        - name: QOUTE
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: QOUTE
+        - name: QOUTEDBY
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: QOUTEDBY
+        - name: TITLE
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: TITLE
         ports:
         - containerPort: 81
       imagePullSecrets:

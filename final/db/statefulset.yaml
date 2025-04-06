@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mysql
-  namespace: db
+  namespace: final
   labels:
     app.kubernetes.io/app: mysql
 spec:
@@ -16,6 +16,7 @@ spec:
       labels:
         app.kubernetes.io/app: mysql
     spec:
+      serviceAccountName: clo835
       containers:
       - name: mysql
         image: 203171546861.dkr.ecr.us-east-1.amazonaws.com/clo835-jcaranay-assignment1-db-repo:v1.0

@@ -1,8 +1,41 @@
+#Common
+echo -n "<value>" | base64
+echo "<base64_string>" | base64 --decode
+
+#Go to Final folder
+
+k create ns final
+
+#SA > Role > Role-Binding
+k apply -f ./sa-cluster/sa.yaml
+k apply -f ./sa-cluster/role.yaml
+k apply -f ./sa-cluster/role-binding.yaml
+
+# Test SA
+kubectl get namespaces --as=system:serviceaccount:final:clo835
+k describe clusterroles clo835-ns-admin  
+
+
+#Provision GP2
 k apply -k 'github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.32'
 
+# DATABASE PROVISIONING
+k create secret generic ecr-secret --from-file=.dockerconfigjson=/home/ec2-user/.docker/config.json \
+--type=kubernetes.io/dockerconfigjson -n final
+k apply -f ./db/secrets.yaml
+k apply -f ./db/pvc.yaml
+k apply -f ./db/headless.yaml
+k apply -f ./db/statefulset.yaml
 
- k create secret generic ecr-secret --from-file=.dockerconfigjson=/home/ec2-user/.docker/config.json \
---type=kubernetes.io/dockerconfigjson -n cowsay
+
+#APPLICATION PROVISIONING
+k create secret generic app-secrets --from-env-file=./app/configs/secrets.conf -n final 
+k apply -f ./app/configMap.yaml
+k apply -f ./app/service.yaml
+k apply -f ./app/deployment.yaml
 
 
-k create configmap my-config-1 --from-file=config-file.conf
+
+#Cleanup
+k delete ns final
+eksctl delete cluster --name clo835 --region us-east-1
